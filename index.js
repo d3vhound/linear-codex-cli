@@ -281,17 +281,33 @@ program
 
       // Populate the Codex input textbox with the combined content
       await page.focus("textarea");
-      await page.keyboard.type(combinedContent, { delay: 10 }); // typing with slight delay
+      await page.keyboard.type(combinedContent, { delay: 0 });
 
-      // Click the "Code" button to trigger Codex generation
-      // Assuming the Codex page has a button with text "Code"
-      const buttons = await page.$$("button");
-      for (const btn of buttons) {
-        const label = await page.evaluate((el) => el.innerText || "", btn);
-        if (label.trim().toLowerCase() === "code") {
-          console.log('Triggering Codex "Code" generation...');
-          await btn.click();
-          break;
+      // Ask the user which action to trigger within Codex
+      const { codexAction } = await inquirer.prompt([
+        {
+          type: "list",
+          name: "codexAction",
+          message: "Which Codex action should be triggered?",
+          choices: [
+            { name: "Code – have ChatGPT generate code", value: "code" },
+            { name: "Ask – send as a normal question", value: "ask" },
+            { name: "None – I will click manually", value: "none" },
+          ],
+          default: "code",
+        },
+      ]);
+
+      if (codexAction !== "none") {
+        // Click the chosen button (case-insensitive match on innerText)
+        const buttons = await page.$$("button");
+        for (const btn of buttons) {
+          const label = await page.evaluate((el) => el.innerText || "", btn);
+          if (label && label.trim().toLowerCase() === codexAction) {
+            console.log(`Triggering Codex "${label.trim()}" action...`);
+            await btn.click();
+            break;
+          }
         }
       }
 
