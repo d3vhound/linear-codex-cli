@@ -1,0 +1,24 @@
+{
+  "name": "linear-codex-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "linear-codex": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "inquirer": "^12.6.1",
+    "node-fetch": "^3.3.2",
+    "puppeteer": "^24.8.2",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-anonymize-ua": "^2.4.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}
